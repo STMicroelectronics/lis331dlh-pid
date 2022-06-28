@@ -5,7 +5,7 @@ Sensor driver for LIS331DLH sensor written in C programming language. This repos
 In order to `clone` the complete content of the repository folder, use the command:
 
 ```
-git clone https://github.com/STMicroelectronics/LIS331DLH/
+git clone https://github.com/STMicroelectronics/LIS331DLH-PID/
 ```
 
 Some examples of driver usage can be found [here](https://github.com/STMicroelectronics/STMems_Standard_C_drivers).

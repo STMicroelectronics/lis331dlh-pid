@@ -52,7 +52,10 @@ int32_t __weak lis331dlh_read_reg(const stmdev_ctx_t *ctx, uint8_t reg,
 {
   int32_t ret;
 
-  if (ctx == NULL) return -1;
+  if (ctx == NULL)
+  {
+    return -1;
+  }
 
   ret = ctx->read_reg(ctx->handle, reg, data, len);
 
@@ -75,7 +78,10 @@ int32_t __weak lis331dlh_write_reg(const stmdev_ctx_t *ctx, uint8_t reg,
 {
   int32_t ret;
 
-  if (ctx == NULL) return -1;
+  if (ctx == NULL)
+  {
+    return -1;
+  }
 
   ret = ctx->write_reg(ctx->handle, reg, data, len);
 
@@ -2180,7 +2186,7 @@ int32_t lis331dlh_int1_6d_threshold_set(const stmdev_ctx_t *ctx, uint8_t val)
   *
   */
 int32_t lis331dlh_int1_6d_threshold_get(const stmdev_ctx_t *ctx,
-                                       uint8_t *val)
+                                        uint8_t *val)
 {
   lis331dlh_int1_ths_t int1_ths;
   int32_t ret;
@@ -2312,7 +2318,7 @@ int32_t lis331dlh_int2_6d_threshold_set(const stmdev_ctx_t *ctx, uint8_t val)
   *
   */
 int32_t lis331dlh_int2_6d_threshold_get(const stmdev_ctx_t *ctx,
-                                       uint8_t *val)
+                                        uint8_t *val)
 {
   lis331dlh_int2_ths_t int2_ths;
   int32_t ret;

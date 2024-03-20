@@ -789,9 +789,9 @@ int32_t lis331dlh_int1_6d_src_get(const stmdev_ctx_t *ctx,
                                   lis331dlh_int1_src_t *val);
 
 int32_t lis331dlh_int1_6d_threshold_set(const stmdev_ctx_t *ctx,
-                                       uint8_t val);
+                                        uint8_t val);
 int32_t lis331dlh_int1_6d_threshold_get(const stmdev_ctx_t *ctx,
-                                       uint8_t *val);
+                                        uint8_t *val);
 
 typedef enum
 {
@@ -808,9 +808,9 @@ int32_t lis331dlh_int2_6d_src_get(const stmdev_ctx_t *ctx,
                                   lis331dlh_int2_src_t *val);
 
 int32_t lis331dlh_int2_6d_threshold_set(const stmdev_ctx_t *ctx,
-                                       uint8_t val);
+                                        uint8_t val);
 int32_t lis331dlh_int2_6d_threshold_get(const stmdev_ctx_t *ctx,
-                                       uint8_t *val);
+                                        uint8_t *val);
 
 /**
   *@}

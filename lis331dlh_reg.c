@@ -145,7 +145,7 @@ int32_t lis331dlh_axis_x_data_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl_reg1.xen = val;
+    ctrl_reg1.xen = val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG1,
                               (uint8_t *)&ctrl_reg1, 1);
   }
@@ -194,7 +194,7 @@ int32_t lis331dlh_axis_y_data_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl_reg1.yen = val;
+    ctrl_reg1.yen = val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG1,
                               (uint8_t *)&ctrl_reg1, 1);
   }
@@ -243,7 +243,7 @@ int32_t lis331dlh_axis_z_data_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl_reg1.zen = val;
+    ctrl_reg1.zen = val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG1,
                               (uint8_t *)&ctrl_reg1, 1);
   }
@@ -389,7 +389,7 @@ int32_t lis331dlh_reference_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg2.hpm = (uint8_t)val;
+    ctrl_reg2.hpm = (uint8_t)val & 0x03U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG2,
                               (uint8_t *)&ctrl_reg2, 1);
   }
@@ -453,7 +453,7 @@ int32_t lis331dlh_full_scale_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg4.fs = (uint8_t)val;
+    ctrl_reg4.fs = (uint8_t)val & 0x03U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG4,
                               (uint8_t *)&ctrl_reg4, 1);
   }
@@ -521,7 +521,7 @@ int32_t lis331dlh_block_data_update_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg4.bdu = val;
+    ctrl_reg4.bdu = val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG4,
                               (uint8_t *)&ctrl_reg4, 1);
   }
@@ -625,12 +625,9 @@ int32_t lis331dlh_acceleration_raw_get(const stmdev_ctx_t *ctx,
 
   if (ret != 0) { return ret; }
 
-  val[0] = (int16_t)buff[1];
-  val[0] = (val[0] * 256) + (int16_t)buff[0];
-  val[1] = (int16_t)buff[3];
-  val[1] = (val[1] * 256) + (int16_t)buff[2];
-  val[2] = (int16_t)buff[5];
-  val[2] = (val[2] * 256) + (int16_t)buff[4];
+  val[0] = (int16_t)(buff[0] | ((uint16_t)buff[1] << 8));
+  val[1] = (int16_t)(buff[2] | ((uint16_t)buff[3] << 8));
+  val[2] = (int16_t)(buff[4] | ((uint16_t)buff[5] << 8));
 
   return ret;
 }
@@ -682,7 +679,7 @@ int32_t lis331dlh_boot_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl_reg2.boot = val;
+    ctrl_reg2.boot = val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG2,
                               (uint8_t *)&ctrl_reg2, 1);
   }
@@ -731,7 +728,7 @@ int32_t lis331dlh_self_test_set(const stmdev_ctx_t *ctx, lis331dlh_st_t val)
 
   if (ret == 0)
   {
-    ctrl_reg4.st = (uint8_t)val;
+    ctrl_reg4.st = (uint8_t)val & 0x07U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG4,
                               (uint8_t *)&ctrl_reg4, 1);
   }
@@ -799,7 +796,7 @@ int32_t lis331dlh_data_format_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg4.ble = (uint8_t)val;
+    ctrl_reg4.ble = (uint8_t)val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG4,
                               (uint8_t *)&ctrl_reg4, 1);
   }
@@ -876,7 +873,7 @@ int32_t lis331dlh_hp_bandwidth_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg2.hpcf = (uint8_t)val;
+    ctrl_reg2.hpcf = (uint8_t)val & 0x03U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG2,
                               (uint8_t *)&ctrl_reg2, 1);
   }
@@ -1107,7 +1104,7 @@ int32_t lis331dlh_spi_mode_set(const stmdev_ctx_t *ctx, lis331dlh_sim_t val)
 
   if (ret == 0)
   {
-    ctrl_reg4.sim = (uint8_t)val;
+    ctrl_reg4.sim = (uint8_t)val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG4,
                               (uint8_t *)&ctrl_reg4, 1);
   }
@@ -1184,7 +1181,7 @@ int32_t lis331dlh_pin_int1_route_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg3.i1_cfg = (uint8_t)val;
+    ctrl_reg3.i1_cfg = (uint8_t)val & 0x03U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG3,
                               (uint8_t *)&ctrl_reg3, 1);
   }
@@ -1257,7 +1254,7 @@ int32_t lis331dlh_int1_notification_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg3.lir1 = (uint8_t)val;
+    ctrl_reg3.lir1 = (uint8_t)val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG3,
                               (uint8_t *)&ctrl_reg3, 1);
   }
@@ -1322,7 +1319,7 @@ int32_t lis331dlh_pin_int2_route_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg3.i2_cfg = (uint8_t)val;
+    ctrl_reg3.i2_cfg = (uint8_t)val & 0x03U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG3,
                               (uint8_t *)&ctrl_reg3, 1);
   }
@@ -1395,7 +1392,7 @@ int32_t lis331dlh_int2_notification_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg3.lir2 = (uint8_t)val;
+    ctrl_reg3.lir2 = (uint8_t)val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG3,
                               (uint8_t *)&ctrl_reg3, 1);
   }
@@ -1460,7 +1457,7 @@ int32_t lis331dlh_pin_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg3.pp_od = (uint8_t)val;
+    ctrl_reg3.pp_od = (uint8_t)val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG3,
                               (uint8_t *)&ctrl_reg3, 1);
   }
@@ -1524,7 +1521,7 @@ int32_t lis331dlh_pin_polarity_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl_reg3.ihl = (uint8_t)val;
+    ctrl_reg3.ihl = (uint8_t)val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG3,
                               (uint8_t *)&ctrl_reg3, 1);
   }
@@ -1662,7 +1659,7 @@ int32_t lis331dlh_int1_on_threshold_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    int1_cfg.aoi = (uint8_t) val;
+    int1_cfg.aoi = (uint8_t) val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT1_CFG,
                               (uint8_t *)&int1_cfg, 1);
   }
@@ -1743,7 +1740,7 @@ int32_t lis331dlh_int1_threshold_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    int1_ths.ths = val;
+    int1_ths.ths = val & 0x7FU;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT1_THS,
                               (uint8_t *)&int1_ths, 1);
   }
@@ -1792,7 +1789,7 @@ int32_t lis331dlh_int1_dur_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    int1_duration.d = val;
+    int1_duration.d = val & 0x7FU;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT1_DURATION,
                               (uint8_t *)&int1_duration, 1);
   }
@@ -1903,7 +1900,7 @@ int32_t lis331dlh_int2_on_threshold_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    int2_cfg.aoi = (uint8_t) val;
+    int2_cfg.aoi = (uint8_t) val & 0x01U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT2_CFG,
                               (uint8_t *)&int2_cfg, 1);
   }
@@ -1984,7 +1981,7 @@ int32_t lis331dlh_int2_threshold_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    int2_ths.ths = val;
+    int2_ths.ths = val & 0x7FU;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT2_THS,
                               (uint8_t *)&int2_ths, 1);
   }
@@ -2033,7 +2030,7 @@ int32_t lis331dlh_int2_dur_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    int2_duration.d = val;
+    int2_duration.d = val & 0x7FU;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT2_DURATION,
                               (uint8_t *)&int2_duration, 1);
   }
@@ -2095,7 +2092,7 @@ int32_t lis331dlh_wkup_to_sleep_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl_reg5.turnon = val;
+    ctrl_reg5.turnon = val & 0x03U;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_CTRL_REG5,
                               (uint8_t *)&ctrl_reg5, 1);
   }
@@ -2244,7 +2241,7 @@ int32_t lis331dlh_int1_6d_threshold_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    int1_ths.ths = val;
+    int1_ths.ths = val & 0x7FU;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT1_THS,
                               (uint8_t *)&int1_ths, 1);
   }
@@ -2381,7 +2378,7 @@ int32_t lis331dlh_int2_6d_threshold_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    int2_ths.ths = val;
+    int2_ths.ths = val & 0x7FU;
     ret = lis331dlh_write_reg(ctx, LIS331DLH_INT2_THS,
                               (uint8_t *)&int2_ths, 1);
   }
